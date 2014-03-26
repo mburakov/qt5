@@ -444,7 +444,7 @@ QRegion QLinuxFbScreen::doRedraw()
         for (int y = 0; y < rects[i].height(); ++y)
         {
             const uchar* src_off = mScreenImage->constScanLine(rects[i].y() + y) + rects[i].x() * bpp;
-            uchar* dst_line = mMmap.data + (rects[i].y() + y) * mScreenImage->height();
+            uchar* dst_line = mMmap.data + (rects[i].y() + y) * mScreenImage->width();
 
             for (int x = 0; x < rects[i].width(); ++x)
             {
