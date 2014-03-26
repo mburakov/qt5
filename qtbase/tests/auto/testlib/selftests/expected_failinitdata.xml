@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCase name="tst_FailInitData">
+<Environment>
+    <QtVersion>@INSERT_QT_VERSION_HERE@</QtVersion>
+    <QTestVersion>@INSERT_QT_VERSION_HERE@</QTestVersion>
+</Environment>
+<TestFunction name="initTestCase">
+<Incident type="fail" file="/home/user/dev/qt5/qtbase/tests/auto/testlib/selftests/failinitdata/tst_failinitdata.cpp" line="56">
+    <Description><![CDATA['false' returned FALSE. ()]]></Description>
+</Incident>
+</TestFunction>
+</TestCase>

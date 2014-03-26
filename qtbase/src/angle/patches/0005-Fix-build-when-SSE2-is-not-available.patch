@@ -1,0 +1,70 @@
+From af7cb8e35774f5cba15256cb463da8c1c4d533f3 Mon Sep 17 00:00:00 2001
+From: Andy Shaw <andy.shaw@digia.com>
+Date: Sat, 14 Sep 2013 11:25:53 +0300
+Subject: [PATCH] Fix build when SSE2 is not available.
+
+Although SSE2 support is detected at runtime it still may not be
+available at build time, so we have to ensure it only uses SSE2
+when it is available at build time too.
+
+Change-Id: I86c45a6466ab4cec79aa0f62b0d5230a78ad825a
+---
+ src/3rdparty/angle/src/libGLESv2/mathutil.h          | 2 ++
+ src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp | 4 ++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/src/3rdparty/angle/src/libGLESv2/mathutil.h b/src/3rdparty/angle/src/libGLESv2/mathutil.h
+index bb48b94..0835486 100644
+--- a/src/3rdparty/angle/src/libGLESv2/mathutil.h
++++ b/src/3rdparty/angle/src/libGLESv2/mathutil.h
+@@ -93,6 +93,7 @@ inline bool supportsSSE2()
+         return supports;
+     }
+ 
++#if defined(_M_IX86) || defined(_M_AMD64) // ARM doesn't provide __cpuid()
+     int info[4];
+     __cpuid(info, 0);
+     
+@@ -102,6 +103,7 @@ inline bool supportsSSE2()
+ 
+         supports = (info[3] >> 26) & 1;
+     }
++#endif
+ 
+     checked = true;
+ 
+diff --git a/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp b/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp
+index b3dcc59..53030b7 100644
+--- a/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp
++++ b/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp
+@@ -373,11 +373,13 @@ void Image9::loadData(GLint xoffset, GLint yoffset, GLsizei width, GLsizei heigh
+     switch (mInternalFormat)
+     {
+       case GL_ALPHA8_EXT:
++#if defined(__SSE2__)
+         if (gl::supportsSSE2())
+         {
+             loadAlphaDataToBGRASSE2(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+         else
++#endif
+         {
+             loadAlphaDataToBGRA(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+@@ -413,11 +415,13 @@ void Image9::loadData(GLint xoffset, GLint yoffset, GLsizei width, GLsizei heigh
+         loadRGB565DataToBGRA(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         break;
+       case GL_RGBA8_OES:
++#if defined(__SSE2__)
+         if (gl::supportsSSE2())
+         {
+             loadRGBAUByteDataToBGRASSE2(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+         else
++#endif
+         {
+             loadRGBAUByteDataToBGRA(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+-- 
+1.8.1.msysgit.1
+

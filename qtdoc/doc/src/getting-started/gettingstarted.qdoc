@@ -1,0 +1,104 @@
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of the documentation of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:FDL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Free Documentation License Usage
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of
+** this file.  Please review the following information to ensure
+** the GNU Free Documentation License version 1.3 requirements
+** will be met: http://www.gnu.org/copyleft/fdl.html.
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
+/*!
+    \page gettingstarted.html
+    \title Getting Started with Qt
+    \brief A quick guide for developers
+
+    \section1 Downloading and Installing Qt
+
+    Qt framework and tools can be installed using an online installer,
+    standalone binary installers or using source packages and building
+    yourself. The open-source version is found from the Qt Project
+    \l {Opensource Downloads}{Downloads} page, which contains download
+    links for Qt and Qt Creator for different development platforms.
+
+    The commercial versions are available for free trial from
+    \l{Try Qt Enterprise}{Digia}.
+
+    \section2 Installing with the Installation Program
+
+    The Qt Installation Program can download the Qt libraries and tools as well
+    as the reference documentation and code samples. The
+    \l{Qt Installation
+    Program} page contains information about installation process.
+
+    \section2 Installing from the Qt Sources
+
+    Qt may also be installed from the sources. Simply download the sources
+    (available from the \l{Opensource Downloads}{Downloads} page) and follow the
+    instructions according to the development platform page here:
+    \l{Building Qt Sources}.
+
+    \section1 Exploring the Tools
+
+    \l{Qt Creator}, the Qt IDE, integrates development tools such as a code
+    editor, a UI designer, a debugger, and other project management tools such
+    as version control.
+
+    For more information, these pages describe the tools and processes involved:
+    \list
+    \li \l{Development Tools}
+    \li \l{Qt Creator Manual}
+    \endlist
+
+    \section1 Creating Applications Using Qt
+
+    Qt 5's modularized nature means that modules may be omitted during the
+    build process, producing libraries that are smaller in size and with
+    less complexities. Depending on their support and target platforms,
+    modules are either an \e essential or an \e add-on.
+
+    These pages explain the modules and the support level for different
+    platforms: \list \li \l{All Modules}{Qt Modules} \li \l{Supported Platforms}
+    \endlist
+
+    To help you on your way, we created two tutorials creating two similar
+    applications, but using different approaches. One implements the user
+    interface using Qt Quick, while the other uses Qt Widgets.
+
+    \list
+    \li \l{Getting Started Programming with Qt Widgets}
+    \li \l{Getting Started Programming with Qt Quick}
+    \endlist
+
+    \section1 Where to Go from Here
+
+    We invite you to explore the rest of Qt. We prepared overviews which help
+    you decide which APIs to use and our examples demonstrate how to use our
+    API.
+
+    \list
+    \li \l{Qt Overviews} - list of topics about application development
+    \li \l{Qt Examples and Tutorials}{Examples and Tutorials} - code samples and tutorials
+    \li \l{Qt Reference Pages} - a listing of C++ and QML APIs
+    \endlist
+
+    Qt's vibrant and active community site, \l{http://qt-project.org} houses
+    a wiki, a forum, and additional learning guides and presentations.
+*/

@@ -1,0 +1,16 @@
+TARGET  = qtsensorgestures_testplugin1
+
+QT += sensors   sensorgestures
+
+PLUGIN_TYPE = sensorgestures
+load(qt_plugin)
+
+# Input
+HEADERS +=  qtestsensorgestureplugindup_p.h \
+                  qtestrecognizerdup.h \
+                  qtest2recognizerdup.h
+SOURCES += qtestsensorgestureplugindup.cpp \
+                  qtestrecognizerdup.cpp \
+                  qtest2recognizerduo.cpp
+
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
