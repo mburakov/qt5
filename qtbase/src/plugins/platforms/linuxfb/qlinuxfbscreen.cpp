@@ -378,11 +378,11 @@ bool QLinuxFbScreen::initialize()
         return false;
     }
 
-    mDepth = determineDepth(vinfo);
-    mBytesPerLine = finfo.line_length;
+    mDepth = 24;//determineDepth(vinfo);
+    mBytesPerLine = 24 * vinfo.xres;//finfo.line_length;
     QRect geometry = determineGeometry(vinfo, userGeometry);
     mGeometry = QRect(QPoint(0, 0), geometry.size());
-    mFormat = determineFormat(vinfo, mDepth);
+    mFormat = QImage::Format_RGB888;//determineFormat(vinfo, mDepth);
     mPhysicalSize = determinePhysicalSize(vinfo, userMmSize, geometry.size());
 
     // mmap the framebuffer
@@ -435,12 +435,33 @@ QRegion QLinuxFbScreen::doRedraw()
     if (touched.isEmpty())
         return touched;
 
-    if (!mBlitter)
-        mBlitter = new QPainter(&mFbScreenImage);
-
     QVector<QRect> rects = touched.rects();
+
+    // TODO: Optimize
+    int bpp = mScreenImage->depth() >> 3;
     for (int i = 0; i < rects.size(); i++)
-        mBlitter->drawImage(rects[i], *mScreenImage, rects[i]);
+    {
+        for (int y = 0; y < rects[i].height(); ++y)
+        {
+            const uchar* src_off = mScreenImage->constScanLine(rects[i].y() + y) + rects[i].x() * bpp;
+            uchar* dst_line = mMmap.data + (rects[i].y() + y) * mScreenImage->height();
+
+            for (int x = 0; x < rects[i].width(); ++x)
+            {
+                const uchar* color = src_off + x * bpp;
+                uchar grayscale = ~((color[0] + color[1] + color[2]) / 96) & 0b110;
+                grayscale |= (grayscale >> 1) & (grayscale >> 2);
+
+                int xbase = (x + rects[i].x()) & ~1;
+                int xsoff = (~(x + rects[i].x()) & 1) * 3 + 2;
+
+                uchar* target = dst_line + xbase;
+                target[0] = target[0] & ~(0b111 << xsoff) | (grayscale << xsoff);
+                target[1] = 1;
+            }
+        }
+    }
+
     return touched;
 }
 
