@@ -444,7 +444,7 @@ QRegion QLinuxFbScreen::doRedraw()
         for (int y = 0; y < rects[i].height(); ++y)
         {
             const uchar* src_off = mScreenImage->constScanLine(rects[i].y() + y) + rects[i].x() * bpp;
-            uchar* dst_line = mMmap.data + (rects[i].y() + y) * mScreenImage->width();
+            ushort* dst_line = reinterpret_cast<ushort*>(mMmap.data) + (rects[i].y() + y) * mScreenImage->width() / 3;
 
             for (int x = 0; x < rects[i].width(); ++x)
             {
@@ -452,12 +452,9 @@ QRegion QLinuxFbScreen::doRedraw()
                 uchar grayscale = ~((color[0] + color[1] + color[2]) / 96) & 0b110;
                 grayscale |= (grayscale >> 1) & (grayscale >> 2);
 
-                int xbase = (x + rects[i].x()) & ~1;
-                int xsoff = (~(x + rects[i].x()) & 1) * 3 + 2;
-
-                uchar* target = dst_line + xbase;
-                target[0] = target[0] & ~(0b111 << xsoff) | (grayscale << xsoff);
-                target[1] = 1;
+                int xbase = (x + rects[i].x()) / 3;
+                int xsoff = (2 - (x + rects[i].x()) % 3) * 3;
+                dst_line[xbase] = (dst_line[xbase] & ~(0b111 << xsoff >> 1)) | (grayscale << xsoff >> 1) | 0x100;
             }
         }
     }
